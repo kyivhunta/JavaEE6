@@ -1,7 +1,6 @@
 package com.serega.practice.module3.dao;
 
 import com.serega.practice.module3.entity.Customer;
-import com.serega.practice.module3.sessionfactory.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -13,28 +12,39 @@ public class CustomerDao extends CommonDao<Customer, Integer> {
 
     public Customer read(Integer key) {
 
-        try (Session session = HibernateUtil.getSession();) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        Customer customer = null;
 
 
-            Transaction transaction = session.getTransaction();
+        try {
+            transaction = session.getTransaction();
 
             transaction.begin();
 
-            Customer customer = session.get(Customer.class, key);
+            customer = session.get(Customer.class, key);
 
             if (customer == null) return null;
 
-            return customer;
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+
+        return customer;
     }
 
     @Override
     public List<Customer> getAll() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Customer> customers = null;
 
-        try (Session session = HibernateUtil.getSession();) {
-
-
-            Transaction transaction = session.getTransaction();
+        try {
+            transaction = session.getTransaction();
 
             transaction.begin();
 
@@ -42,8 +52,14 @@ public class CustomerDao extends CommonDao<Customer, Integer> {
 
             transaction.commit();
 
-            return namedQuery.getResultList();
-        }
+            customers = namedQuery.getResultList();
 
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return customers;
     }
 }

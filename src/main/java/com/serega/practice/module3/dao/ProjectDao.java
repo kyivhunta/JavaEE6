@@ -1,7 +1,6 @@
 package com.serega.practice.module3.dao;
 
 import com.serega.practice.module3.entity.Project;
-import com.serega.practice.module3.sessionfactory.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -12,25 +11,40 @@ public class ProjectDao extends CommonDao<Project, Integer> {
 
     public Project read(Integer key) {
 
-        try (Session session = HibernateUtil.getSession()) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        Project project = null;
 
-            Transaction transaction = session.getTransaction();
+        try {
+            transaction = session.getTransaction();
 
             transaction.begin();
 
-            Project project = session.get(Project.class, key);
+            project = session.get(Project.class, key);
 
             if (project == null) return null;
 
-            return project;
+            transaction.commit();
+
+
+        }catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+
+        return project;
     }
 
     public List<Project> getAll() {
 
-        try (Session session = HibernateUtil.getSession()) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Project> projects = null;
 
-            Transaction transaction = session.getTransaction();
+        try {
+            transaction = session.getTransaction();
 
             transaction.begin();
 
@@ -38,8 +52,15 @@ public class ProjectDao extends CommonDao<Project, Integer> {
 
             transaction.commit();
 
-            return namedQuery.getResultList();
+            projects = namedQuery.getResultList();
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
 
+        return projects;
     }
 }

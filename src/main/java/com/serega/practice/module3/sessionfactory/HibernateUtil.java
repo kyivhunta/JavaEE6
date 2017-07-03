@@ -1,7 +1,6 @@
 package com.serega.practice.module3.sessionfactory;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.SessionFactory;
 
@@ -11,6 +10,9 @@ public class HibernateUtil {
 
 
     private static final SessionFactory ourSessionFactory;
+
+    private HibernateUtil() {
+    }
 
     static {
         try {
@@ -24,11 +26,12 @@ public class HibernateUtil {
         }
     }
 
-    public static Session getSession() throws HibernateException {
-        return ourSessionFactory.openSession();
+    public static SessionFactory getSessionFactory() throws HibernateException {
+
+        return ourSessionFactory;
     }
 
-    public static void shutDown(){
+    public static void shutDown() {
 
         ourSessionFactory.close();
     }

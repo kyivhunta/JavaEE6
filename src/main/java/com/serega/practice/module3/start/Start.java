@@ -8,6 +8,8 @@ import com.serega.practice.module3.controllers.*;
 import com.serega.practice.module3.dao.*;
 import com.serega.practice.module3.entity.*;
 import com.serega.practice.module3.sessionfactory.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,7 +49,18 @@ public class Start {
         mainconsole.chooseOperation();
 
         bufferedReader.close();
-        HibernateUtil.shutDown();
+//
+//        Session session = HibernateUtil.getSessionFactory();
+//        Transaction transaction = session.getTransaction();
+//
+//        transaction.begin();
+//
+//        Project project = session.get(Project.class, 1);
+//        System.out.println(project);
+//
+//        transaction.commit();
+//        session.close();
+//        HibernateUtil.shutDown();
 
 //        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit1");
 //        EntityManager entityManager = entityManagerFactory.createEntityManager();

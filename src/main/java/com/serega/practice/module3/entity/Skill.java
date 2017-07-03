@@ -25,7 +25,6 @@ public class Skill {
         this.id = idSkill;
     }
 
-    @Basic
     @Column(name = "skillName", nullable = false, length = 45)
     public String getSkill() {
         return skill;

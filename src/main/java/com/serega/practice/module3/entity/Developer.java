@@ -18,7 +18,6 @@ public class Developer {
     }
 
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idDeveloper", nullable = false)
@@ -30,7 +29,6 @@ public class Developer {
         this.id = id;
     }
 
-    @Basic
     @Column(name = "name", length = 45, nullable = false)
     public String getName() {
         return name;
@@ -40,7 +38,6 @@ public class Developer {
         this.name = name;
     }
 
-    @Basic
     @Column(name = "secondName", length = 45, nullable = false)
     public String getSecondName() {
         return secondName;
@@ -50,7 +47,6 @@ public class Developer {
         this.secondName = secondName;
     }
 
-    @Basic
     @Column(name = "salary", nullable = false)
     public int getSalary() {
         return salary;
@@ -70,7 +66,7 @@ public class Developer {
     }
 
     @ManyToOne()
-    @JoinColumn(name = "ProjectId", referencedColumnName = "idProject") //nullable = false если нужно сразу добавлять проект, в моем слечае проект не добавляеться сразу
+    @JoinColumn(name = "ProjectId", referencedColumnName = "idProject")
     public Project getProject() {
         return project;
     }

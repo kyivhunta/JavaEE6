@@ -1,10 +1,9 @@
 package com.serega.practice.module3.dao;
 
-import com.serega.practice.module3.entity.Skill;
 import com.serega.practice.module3.sessionfactory.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,49 +11,77 @@ import java.util.List;
 
 public abstract class CommonDao<T, K extends Serializable> {
 
+    protected SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+
 
     public abstract T read(K key);
 
     public abstract List<T> getAll();
 
     public void create(T entity) {
-        Session session = HibernateUtil.getSession();
-        Transaction transaction = session.getTransaction();
 
-        transaction.begin();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
 
-        session.save(entity);
+        try {
+            transaction = session.getTransaction();
 
-        transaction.commit();
+            transaction.begin();
 
-        session.close();
+            session.save(entity);
+
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public void update(T entity) {
-        Session session = HibernateUtil.getSession();
-        Transaction transaction = session.getTransaction();
 
-        transaction.begin();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
 
-        session.merge(entity);
+        try {
+            transaction = session.getTransaction();
 
-        transaction.commit();
+            transaction.begin();
 
-        session.close();
+            session.merge(entity);
+
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
 
     }
 
     public void delete(T entity) {
-        Session session = HibernateUtil.getSession();
-        Transaction transaction = session.getTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = null;
 
-        transaction.begin();
+        try {
+            transaction = session.getTransaction();
 
-        session.delete(entity);
+            transaction.begin();
 
-        transaction.commit();
+            session.delete(entity);
 
-        session.close();
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
 
     }
 

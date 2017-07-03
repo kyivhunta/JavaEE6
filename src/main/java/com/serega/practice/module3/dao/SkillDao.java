@@ -1,7 +1,6 @@
 package com.serega.practice.module3.dao;
 
 import com.serega.practice.module3.entity.Skill;
-import com.serega.practice.module3.sessionfactory.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -12,25 +11,40 @@ public class SkillDao extends CommonDao<Skill, Integer> {
 
     public Skill read(Integer key) {
 
-        try (Session session = HibernateUtil.getSession()) {
 
-            Transaction transaction = session.getTransaction();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        Skill skill = null;
+
+        try {
+
+            transaction = session.getTransaction();
 
             transaction.begin();
 
-            Skill skill = session.get(Skill.class, key);
+            skill = session.get(Skill.class, key);
 
             if (skill == null) return null;
 
-            return skill;
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+
+        return skill;
     }
 
     public List<Skill> getAll() {
 
-        try (Session session = HibernateUtil.getSession()) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Skill> skills = null;
 
-            Transaction transaction = session.getTransaction();
+        try {
+            transaction = session.getTransaction();
 
             transaction.begin();
 
@@ -38,8 +52,15 @@ public class SkillDao extends CommonDao<Skill, Integer> {
 
             transaction.commit();
 
-            return namedQuery.getResultList();
+            skills = namedQuery.getResultList();
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
 
+        return skills;
     }
 }

@@ -1,7 +1,6 @@
 package com.serega.practice.module3.dao;
 
 import com.serega.practice.module3.entity.Developer;
-import com.serega.practice.module3.sessionfactory.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -12,25 +11,38 @@ public class DeveloperDao extends CommonDao<Developer, Integer> {
 
     public Developer read(Integer key) {
 
-        try (Session session = HibernateUtil.getSession()) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        Developer developer = null;
 
-            Transaction transaction = session.getTransaction();
+        try {
+            transaction = session.getTransaction();
 
             transaction.begin();
 
-            Developer developer = session.get(Developer.class, key);
+            developer = session.get(Developer.class, key);
 
             if (developer == null) return null;
 
-            return developer;
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+
+        return developer;
     }
 
     public List<Developer> getAll() {
 
-        try (Session session = HibernateUtil.getSession()) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Developer> developers = null;
 
-            Transaction transaction = session.getTransaction();
+        try {
+            transaction = session.getTransaction();
 
             transaction.begin();
 
@@ -38,8 +50,16 @@ public class DeveloperDao extends CommonDao<Developer, Integer> {
 
             transaction.commit();
 
-            return namedQuery.getResultList();
+            developers = namedQuery.getResultList();
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+
+        return developers;
 
     }
 }

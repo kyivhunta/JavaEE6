@@ -3,7 +3,6 @@ package com.serega.practice.module3.entity;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 @Table(name = "project", schema = "hibernate")
 @NamedQuery(name = "Project.getAll", query = "SELECT project FROM Project project")
@@ -29,7 +28,6 @@ public class Project {
         this.id = idProject;
     }
 
-    @Basic
     @Column(name = "name", length = 45, nullable = false)
     public String getName() {
         return name;
@@ -39,7 +37,6 @@ public class Project {
         this.name = name;
     }
 
-    @Basic
     @Column(name = "cost", nullable = false)
     public int getCost() {
         return cost;
@@ -48,7 +45,6 @@ public class Project {
     public void setCost(int cost) {
         this.cost = cost;
     }
-
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     public List<Developer> getDevelopers() {
@@ -81,7 +77,7 @@ public class Project {
         return result;
     }
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idCompany", referencedColumnName = "idCompany")
     public Company getCompany() {
         return company;
@@ -91,7 +87,7 @@ public class Project {
         this.company = companyByIdCompany;
     }
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idCustomer", referencedColumnName = "idCustomer")
     public Customer getCustomer() {
         return customer;
@@ -107,17 +103,17 @@ public class Project {
         String dev = "";
         if (developers != null) {
             for (int i = 0; i < developers.size(); i++) {
-                dev+=developers.get(i).getName()+" "+developers.get(i).getSecondName()+(i==developers.size()-1?"":", ");
+                dev += developers.get(i).getName() + " " + developers.get(i).getSecondName() + (i == developers.size() - 1 ? "" : ", ");
             }
-        }else dev = "Dont have developers";
+        } else dev = "Dont have developers";
 
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
-                ", developers=" + dev +
-                ", customer=" + (customer.getProjects().stream().noneMatch(project-> project.equals(this)) ?"Dont have customer":customer.getName() + " " + customer.getSecondName()) +
-                ", company=" +(company.getProjects().stream().noneMatch(project -> project.equals(this))? "Dont have a company": company.getName()) +
+                ", developers=" + developers.size() + "  " + String.valueOf(dev) +
+                ", customer=" + (customer.getProjects().stream().noneMatch(project -> project.equals(this)) ? "Dont have customer" : customer.getName() + " " + customer.getSecondName()) +
+                ", company=" + (company.getProjects().stream().noneMatch(project -> project.equals(this)) ? "Dont have a company" : company.getName()) +
                 '}';
     }
 }

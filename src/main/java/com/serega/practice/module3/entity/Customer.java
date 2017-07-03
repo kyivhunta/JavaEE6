@@ -23,7 +23,6 @@ public class Customer {
         this.idCustomer = idCustomer;
     }
 
-    @Basic
     @Column(name = "name", length = 45, nullable = false)
     public String getName() {
         return name;
@@ -33,7 +32,6 @@ public class Customer {
         this.name = name;
     }
 
-    @Basic
     @Column(name = "secondName", length = 45, nullable = false)
     public String getSecondName() {
         return secondName;

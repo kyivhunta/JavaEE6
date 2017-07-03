@@ -1,7 +1,6 @@
 package com.serega.practice.module3.dao;
 
 import com.serega.practice.module3.entity.Company;
-import com.serega.practice.module3.sessionfactory.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -11,25 +10,39 @@ import java.util.List;
 public class CompanyDao extends CommonDao<Company, Integer> {
 
     public Company read(Integer key) {
-        try (Session session = HibernateUtil.getSession()) {
-            Transaction transaction = session.getTransaction();
+        Company company = null;
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+
+            transaction = session.getTransaction();
 
             transaction.begin();
 
-            Company company = session.get(Company.class, key);
+            company = session.get(Company.class, key);
 
             if (company == null) return null;
 
-            return company;
+
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+
+        return company;
     }
 
     public List<Company> getAll() {
 
-        try (Session session = HibernateUtil.getSession()) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Company> companies = null;
 
-
-            Transaction transaction = session.getTransaction();
+        try {
+            transaction = session.getTransaction();
 
             transaction.begin();
 
@@ -37,8 +50,15 @@ public class CompanyDao extends CommonDao<Company, Integer> {
 
             transaction.commit();
 
-            return namedQuery.getResultList();
+            companies = namedQuery.getResultList();
 
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+
+        return companies;
     }
 }
