@@ -1,0 +1,88 @@
+1.-------------------------------------------------
+GET / example.com HTTP / 1.1
+Host: example.com
+2.-------------------------------------------------
+GET / find?value=word1+word2+word3 HTTP /1.1
+Host: search.com
+3.-------------------------------------------------
+GET / find?value=I+want+to+buy+a+flat HTTP /1.1
+Host: search.com
+4.-------------------------------------------------
+GET / yourbasket HTTP / 1.1
+Host: buyme.com
+5.-------------------------------------------------
+DELETE / remove?productId=2 HTTP / 1.1
+Host: buyme.com
+6.-------------------------------------------------
+HTTP/1.1 200 OK
+Server: Apache
+Last-Modified: Wed, 11 Feb 2009 11:20:59 GMT
+Content-Language: ua
+Content-Type: text/html; charset=utf-8
+Content-Length: 1234
+-------------------------------
+Request URL:http://localhost:8080/hello
+Request Method:GET
+Status Code:404
+Remote Address:[::1]:8080
+Referrer Policy:no-referrer-when-downgrade
+Response Headers>>>>>>>
+Content-Language:en
+Content-Length:1076
+Content-Type:text/html;charset=utf-8
+-------------------------------
+HTTP/1.1 302 Found
+Location: http://example.ua/
+Cache-Control: private
+Date: Thu, 14 Jul 2017 11:08:01 GMT
+Server: apache
+Content-Type: text/html; charset=utf-8
+Content-Length: 2000
+-------------------------------
+HTTP/1.1 501 Not Implemented
+Server: nginx
+Date: Thu, 14 Jul 2017 11:15:01 GMT
+Content-type: text/html
+Content-Length: 202
+Connection:keep-alive
+-------------------------------
+Request URL:http://localhost:8080/wellcome
+Request Method:GET
+Status Code:500
+Remote Address:[::1]:8080
+Referrer Policy:no-referrer-when-downgrade
+Response Headers>>>>
+Connection:close
+Content-Language:en
+Content-Length:1037
+Content-Type:text/html;charset=ISO-8859-1
+Date:Fri, 14 Jul 2017 15:19:02 GMT
+7.-------------------------------------------------
+GET /  example.com HTTP / 1.1
+Host: example.com
+Accept-Encoding:gzip, deflate, br
+Accept-Language:ru-UA,ru-RU;q=0.8,ru;q=0.6,en-US;q=0.4,en;q=0.2
+Connection:keep-alive
+8.-------------------------------------------------
+GET / example.com HTTP / 1.1
+Host: example.com
+Cookie:_octo=GH1.1.994444628.1495538275; logged_in=yes; dotcom_user=user;
+user_session=su-baJXTjumCFJ8opxxL7c5sA6TEZ21EVsob7f395sXG8eyz;
+__Host-user_session_same_site=su-baJXTjumCFJ8opxxL7c5sA6TEZ21EVsob7f395sXG8eyz;
+_gh_sess=eyJsYXN0X3dyaXRlIjoxNDk4ODQ5MzM3MTQ2LCJzZXNzaW9uX2lkIjoiOTRlZmYxNDllODAyMjh
+lMTdkYzAxYmFhZGVhN2QyYzciLCJjb250ZXh0IjoiLyIsInNweV9yZXBvIjoiamF2YS1jb3Vyc2Uvc2Vydmxl
+dHMiLCJzcHlfcmVwb19hdCI6MTUwMDAyMDQ4NiwibGFzdF9yZWFkX2Zyb21fcmVwbGljYXMiOjE1MDAwMzQwMD
+YzMTEsImZsYXNoIjp7ImRpc2NhcmQiOlsiYW5hbHl0aWNzX2xvY2F0aW9uIl0sImZsYXNoZXMiOnsiYW5hbHl0
+aWNzX2xvY2F0aW9uIjoiL2Rhc2hib2FyZCJ9fX0%3D--ac540d0ec80917136fbb9332d7e86f3891aa6ef7;
+ _ga=GA1.2.1258697093.1495538275; _gat=1; tz=Europe%2FKiev
+9.-------------------------------------------------
+POST / login?user=user&password=pass HTTP / 1.1
+Host: auth.com
+10.------------------------------------------------
+PUT /form.html HTTP/1.1
+Host: upload.com
+Connection: keep-alive
+Keep-Alive: 300
+
+Content-Disposition: form-data; name="file"; filename="file.txt"
+Content-Type: text/plain
