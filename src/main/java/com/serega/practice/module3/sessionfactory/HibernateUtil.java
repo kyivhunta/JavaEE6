@@ -16,7 +16,7 @@ public class HibernateUtil {
 
     static {
         try {
-            File file = new File("D:\\GoJava#6\\JavaEE\\JavaEE6\\src\\main\\resources\\META-INF\\hibernate.cfg.xml");
+            File file = new File("/home/shevchenko/Загрузки/java materials/JavaEE6/src/main/resources/META-INF/hibernate.cfg.xml");
             Configuration configuration = new Configuration();
             configuration.configure(file);
 

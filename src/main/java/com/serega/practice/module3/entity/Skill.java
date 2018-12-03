@@ -1,5 +1,7 @@
 package com.serega.practice.module3.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 
@@ -15,7 +17,8 @@ public class Skill {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "custom_generator", strategy = "com.serega.practice.module3.id_generator.CustomGenerator")
+    @GeneratedValue(generator = "custom_generator")
     @Column(name = "idSkill",nullable = false)
     public int getId() {
         return id;

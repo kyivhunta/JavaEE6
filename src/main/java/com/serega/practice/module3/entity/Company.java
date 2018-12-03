@@ -5,6 +5,7 @@ import java.util.List;
 
 
 @Entity
+@Table(name = "company")
 @NamedQuery(name = "Company.getAll", query = "SELECT company FROM Company company")
 public class Company {
     private int idCompany;
